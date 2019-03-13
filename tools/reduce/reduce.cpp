@@ -35,6 +35,7 @@
 #include "spirv-tools/libspirv.hpp"
 #include "tools/io.h"
 #include "tools/util/cli_consumer.h"
+#include "tools/val/val_strings.h"
 
 using namespace spvtools::reduce;
 
@@ -111,23 +112,9 @@ Options (in lexicographical order):
   --version
                Display reducer version information.
 
-Supported validator options:
-  --relax-logical-pointer          Allow allocating an object of a pointer type and returning
-                                   a pointer value from a function in logical addressing mode
-  --relax-block-layout             Enable VK_KHR_relaxed_block_layout when checking standard
-                                   uniform, storage buffer, and push constant layouts.
-                                   This is the default when targeting Vulkan 1.1 or later.
-  --scalar-block-layout            Enable VK_EXT_scalar_block_layout when checking standard
-                                   uniform, storage buffer, and push constant layouts.  Scalar layout
-                                   rules are more permissive than relaxed block layout so in effect
-                                   this will override the --relax-block-layout option.
-  --skip-block-layout              Skip checking standard uniform/storage buffer layout.
-                                   Overrides any --relax-block-layout or --scalar-block-layout option.
-  --relax-struct-store             Allow store from one struct type to a
-                                   different type with compatible layout and
-                                   members.
+Supported validator options:%s
 )",
-      program, program);
+      program, program, spvtools::val::shared_validator_options_string);
 }
 
 // Message consumer for this tool.  Used to emit diagnostics during
