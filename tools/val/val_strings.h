@@ -18,21 +18,29 @@
 namespace spvtools {
 namespace val {
 
-const char* shared_validator_options_string = R"(
-  --relax-logical-pointer          Allow allocating an object of a pointer type and returning
-                                   a pointer value from a function in logical addressing mode
+const char* kValidatorOptionHelpRelaxBlockLayout = R"(
   --relax-block-layout             Enable VK_KHR_relaxed_block_layout when checking standard
                                    uniform, storage buffer, and push constant layouts.
-                                   This is the default when targeting Vulkan 1.1 or later.
-  --scalar-block-layout            Enable VK_EXT_scalar_block_layout when checking standard
-                                   uniform, storage buffer, and push constant layouts.  Scalar layout
-                                   rules are more permissive than relaxed block layout so in effect
-                                   this will override the --relax-block-layout option.
-  --skip-block-layout              Skip checking standard uniform/storage buffer layout.
-                                   Overrides any --relax-block-layout or --scalar-block-layout option.
+                                   This is the default when targeting Vulkan 1.1 or later.)";
+
+const char* kValidatorOptionHelpRelaxLogicalPointer = R"(
+  --relax-logical-pointer          Allow allocating an object of a pointer type and returning
+                                   a pointer value from a function in logical addressing mode)";
+
+const char* kValidatorOptionHelpRelaxStructStore = R"(
   --relax-struct-store             Allow store from one struct type to a
                                    different type with compatible layout and
                                    members.)";
+
+const char* kValidatorOptionHelpScalarBlockLayout = R"(
+  --scalar-block-layout            Enable VK_EXT_scalar_block_layout when checking standard
+                                   uniform, storage buffer, and push constant layouts.  Scalar layout
+                                   rules are more permissive than relaxed block layout so in effect
+                                   this will override the --relax-block-layout option.)";
+
+const char* kValidatorOptionHelpSkipBlockLayout = R"(
+  --skip-block-layout              Skip checking standard uniform/storage buffer layout.
+                                   Overrides any --relax-block-layout or --scalar-block-layout option.)";
 
 }  // namespace val
 }  // namespace spvtools

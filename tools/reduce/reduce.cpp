@@ -38,6 +38,7 @@
 #include "tools/val/val_strings.h"
 
 using namespace spvtools::reduce;
+using namespace spvtools::val;
 
 namespace {
 
@@ -112,9 +113,13 @@ Options (in lexicographical order):
   --version
                Display reducer version information.
 
-Supported validator options:%s
+Supported validator options:%s%s%s%s%s
 )",
-      program, program, spvtools::val::shared_validator_options_string);
+      program, program, kValidatorOptionHelpRelaxBlockLayout,
+      kValidatorOptionHelpRelaxLogicalPointer,
+      kValidatorOptionHelpRelaxStructStore,
+      kValidatorOptionHelpScalarBlockLayout,
+      kValidatorOptionHelpSkipBlockLayout);
 }
 
 // Message consumer for this tool.  Used to emit diagnostics during
@@ -168,19 +173,16 @@ ReduceStatus ParseFlags(int argc, const char** argv, const char** in_file,
       assert(!*interestingness_test);
       *interestingness_test = cur_arg;
       positional_arg_index++;
-
-      // TODO: Refactor. Repeated C++ code for parsing these options. Also
-      // consider removing repeated help text.
-    } else if (0 == strcmp(cur_arg, "--relax-logical-pointer")) {
-      validator_options->SetRelaxLogicalPointer(true);
     } else if (0 == strcmp(cur_arg, "--relax-block-layout")) {
       validator_options->SetRelaxBlockLayout(true);
+    } else if (0 == strcmp(cur_arg, "--relax-logical-pointer")) {
+      validator_options->SetRelaxLogicalPointer(true);
+    } else if (0 == strcmp(cur_arg, "--relax-struct-store")) {
+      validator_options->SetRelaxStructStore(true);
     } else if (0 == strcmp(cur_arg, "--scalar-block-layout")) {
       validator_options->SetScalarBlockLayout(true);
     } else if (0 == strcmp(cur_arg, "--skip-block-layout")) {
       validator_options->SetSkipBlockLayout(true);
-    } else if (0 == strcmp(cur_arg, "--relax-struct-store")) {
-      validator_options->SetRelaxStructStore(true);
     } else {
       spvtools::Error(ReduceDiagnostic, nullptr, {},
                       "Too many positional arguments specified");

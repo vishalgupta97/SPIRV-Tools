@@ -25,6 +25,8 @@
 #include "tools/util/cli_consumer.h"
 #include "tools/val/val_strings.h"
 
+using namespace spvtools::val;
+
 void print_usage(char* argv0) {
   printf(
       R"(%s - Validate a SPIR-V binary file.
@@ -46,13 +48,17 @@ Options:
   --max-function-args              <maximum number arguments allowed per function>
   --max-control-flow-nesting-depth <maximum Control Flow nesting depth allowed>
   --max-access-chain-indexes       <maximum number of indexes allowed to use for Access Chain instructions>
-  --max-id-bound                   <maximum value for the id bound>%s
+  --max-id-bound                   <maximum value for the id bound>%s%s%s%s%s
   --version                        Display validator version information.
   --target-env                     {vulkan1.0|vulkan1.1|opencl2.2|spv1.0|spv1.1|spv1.2|spv1.3|webgpu0}
                                    Use Vulkan 1.0, Vulkan 1.1, OpenCL 2.2, SPIR-V 1.0,
                                    SPIR-V 1.1, SPIR-V 1.2, SPIR-V 1.3 or WIP WebGPU validation rules.
 )",
-      argv0, argv0, spvtools::val::shared_validator_options_string);
+      argv0, argv0, kValidatorOptionHelpRelaxBlockLayout,
+      kValidatorOptionHelpRelaxLogicalPointer,
+      kValidatorOptionHelpRelaxStructStore,
+      kValidatorOptionHelpScalarBlockLayout,
+      kValidatorOptionHelpSkipBlockLayout);
 }
 
 int main(int argc, char** argv) {
@@ -117,16 +123,16 @@ int main(int argc, char** argv) {
           continue_processing = false;
           return_code = 1;
         }
-      } else if (0 == strcmp(cur_arg, "--relax-logical-pointer")) {
-        options.SetRelaxLogicalPointer(true);
       } else if (0 == strcmp(cur_arg, "--relax-block-layout")) {
         options.SetRelaxBlockLayout(true);
+      } else if (0 == strcmp(cur_arg, "--relax-logical-pointer")) {
+        options.SetRelaxLogicalPointer(true);
+      } else if (0 == strcmp(cur_arg, "--relax-struct-store")) {
+        options.SetRelaxStructStore(true);
       } else if (0 == strcmp(cur_arg, "--scalar-block-layout")) {
         options.SetScalarBlockLayout(true);
       } else if (0 == strcmp(cur_arg, "--skip-block-layout")) {
         options.SetSkipBlockLayout(true);
-      } else if (0 == strcmp(cur_arg, "--relax-struct-store")) {
-        options.SetRelaxStructStore(true);
       } else if (0 == cur_arg[1]) {
         // Setting a filename of "-" to indicate stdin.
         if (!inFile) {
