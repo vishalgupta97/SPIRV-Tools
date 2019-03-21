@@ -19,6 +19,7 @@ add_spvtools_unittest(TARGET reduce
         operand_to_dominating_id_test.cpp
         reduce_test_util.cpp
         reduce_test_util.h
+        reducer_large_test.cpp
         reducer_test.cpp
         remove_function_test.cpp
         remove_opname_instruction_test.cpp
