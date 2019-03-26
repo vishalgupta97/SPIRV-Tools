@@ -40,7 +40,7 @@ class EventuallyInteresting {
   const uint32_t always_interesting_after_;
   uint32_t count_;
 };
-/*
+
 TEST(ReducerTest, FuzzOne) {
   const std::string original = R"(
                OpCapability Shader
@@ -1284,7 +1284,7 @@ TEST(ReducerTest, FuzzOne) {
         return eventually_interesting.IsInteresting();
       });
   reducer.AddDefaultReductionPasses();
-  reducer.SetMessageConsumer(CLIMessageConsumer);
+  reducer.SetMessageConsumer(NopDiagnostic);
 
   std::vector<uint32_t> binary_in;
   SpirvTools t(env);
@@ -1300,7 +1300,7 @@ TEST(ReducerTest, FuzzOne) {
 
   ASSERT_EQ(status, Reducer::ReductionResultStatus::kComplete);
 }
-*/
+
 }  // namespace
 }  // namespace reduce
 }  // namespace spvtools
