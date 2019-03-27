@@ -64,7 +64,20 @@ int main(int argc, const char** argv) {
 
   for (auto& function : *context->module()) {
     output_file << "Function " << function.result_id() << std::endl;
+
+    for(auto block = function.begin(); block != function.end(); block++) {
+    	output_file << " \tBlocks" << block->id() <<  std::endl;
+    	
+    	for(auto instr = block->begin(); instr != block->end(); instr.operator ++()) {
+    		output_file << " \t\tInstruction" << instr->PrettyPrint() << std::endl;
+    	}
+    }
   }
 
+  for (auto& instruction : context->GetConstants()) {
+    output_file << "Constants " << instruction->result_id() << std::endl;
+  }
+
+  output_file<<"Hello World"<<std::endl;
   return 0;
 }
