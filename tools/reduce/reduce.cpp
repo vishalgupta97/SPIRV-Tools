@@ -200,6 +200,18 @@ ReduceStatus ParseFlags(int argc, const char** argv, const char** in_file,
 
 }  // namespace
 
+// Dumps the shader from |context| to |filename|. Useful for interactive
+// debugging.
+void DumpShader(spvtools::opt::IRContext* context, const char* filename) {
+  std::vector<uint32_t> binary;
+  context->module()->ToBinary(&binary, false);
+  auto write_file_succeeded =
+      WriteFile(filename, "wb", &binary[0], binary.size());
+  if (!write_file_succeeded) {
+    std::cerr << "Failed to dump shader" << std::endl;
+  }
+}
+
 const auto kDefaultEnvironment = SPV_ENV_UNIVERSAL_1_3;
 
 int main(int argc, const char** argv) {
